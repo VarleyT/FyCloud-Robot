@@ -18,33 +18,33 @@ import java.util.stream.Collectors;
  */
 public class NeteaseSongSearch {
     public static List<NeteaseMusicInfo> SongOfList(String Name) {
-        final String resultJson = HttpUtil.doGET(String.format(APIs.Netease_API.getsearch, Name, 1, 0, 10));
-        System.out.println(resultJson);
+        final String resultJson = HttpUtil.doGET(String.format(APIs.Netease_API.search, Name));
         final JSONObject response = JSON.parseObject(resultJson);
         final JSONObject result = response.getJSONObject("result");
         final JSONArray songs = result.getJSONArray("songs");
         List<NeteaseMusicInfo> SongLists = new ArrayList<>();
-        for (int i = 0; i < songs.size(); i++) {
+        for (int i = 0; i < 10; i++) {
             JSONObject songdetail = songs.getJSONObject(i);
             final String id = songdetail.getString("id");
             final String name = songdetail.getString("name");
-            final JSONArray artistsList = songdetail.getJSONArray("artists");
+            final JSONArray artistsList = songdetail.getJSONArray("ar");
             final List<String> artistList = artistsList.stream().map(item -> {
                 JSONObject object = (JSONObject) item;
                 return object.getString("name");
             }).collect(Collectors.toList());
             final String author = String.join("&", artistList);
             final String jumpUrl = "https://music.163.com/#/song?id=" + id;
-            SongLists.add(new NeteaseMusicInfo(id, name, author, "", "", jumpUrl));
+            final String imgUrl = songdetail.getJSONObject("al").getString("picUrl");
+            SongLists.add(new NeteaseMusicInfo(id, name, author, imgUrl, "", jumpUrl));
         }
 
         return SongLists;
     }
 
     public static NeteaseMusicInfo SongDetail(NeteaseMusicInfo neteaseMusicInfo, String SongId) {
-        final JSONObject response = JSON.parseObject(HttpUtil.doGET(String.format(APIs.Netease_API.getsongdetail, SongId)));
-        String imgUrl = response.getString("cover");
-        String mp3Url = response.getString("mp3url");
-        return new NeteaseMusicInfo(neteaseMusicInfo.getId(), neteaseMusicInfo.getName(), neteaseMusicInfo.getAuthor(), imgUrl, mp3Url, neteaseMusicInfo.getJumpUrl());
+        final JSONObject response = JSON.parseObject(HttpUtil.doGET(String.format(APIs.Netease_API.mp3url, SongId)));
+        JSONArray data = response.getJSONArray("data");
+        final String mp3Url = data.getJSONObject(0).getString("url");
+        return new NeteaseMusicInfo(neteaseMusicInfo.getId(), neteaseMusicInfo.getName(), neteaseMusicInfo.getAuthor(), neteaseMusicInfo.getImgUrl(), mp3Url, neteaseMusicInfo.getJumpUrl());
     }
 }

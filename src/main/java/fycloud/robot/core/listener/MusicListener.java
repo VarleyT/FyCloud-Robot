@@ -24,6 +24,10 @@ import love.forte.simbot.listener.SessionCallback;
 
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author 19634
@@ -40,7 +44,7 @@ public class MusicListener {
     public MessageContentBuilderFactory messageContentBuilderFactory;
 
     @OnGroup
-    @Filter(value = "点歌{{name}}", matchType = MatchType.REGEX_MATCHES)
+    @Filter(value = "(点歌|搜歌){{name}}", matchType = MatchType.REGEX_MATCHES)
     public void start(@FilterValue("name")String searchSongName, GroupMsg m, ListenerContext context, Sender sender) {
         log.info(m.getAccountInfo().getAccountNickname() + "(" + m.getAccountInfo().getAccountCode() + ") 在 " + m.getGroupInfo().getGroupName() + "(" + m.getGroupInfo().getGroupCode() + ") " + " 调用了 <点歌> 功能--> " + m.getText());
         String EncodedName = "";
@@ -82,7 +86,7 @@ public class MusicListener {
                     .key("brief").value(SongDetail.getName() + "-" + SongDetail.getAuthor())
                     .key("summary").value(SongDetail.getAuthor())
                     .build();
-            if (SongDetail.getMp3Url().equals("")) {
+            if (SongDetail.getMp3Url().equals("") || SongDetail.getMp3Url() == null) {
                 sender.sendGroupMsg(m, "该歌曲暂时无法播放，换一个吧~");
             } else {
                 sender.sendGroupMsg(m, SongCard);
@@ -90,6 +94,8 @@ public class MusicListener {
         }).onError(e -> {
             if (e instanceof TimeoutCancellationException) {
                 sender.sendGroupMsg(m, "超时啦！请重新点歌");
+            } else if (e instanceof CancellationException){
+
             } else {
                 e.printStackTrace();
                 sender.sendGroupMsg(m, "出错了！请尝试重新点播");
@@ -97,8 +103,10 @@ public class MusicListener {
         }).onCancel(e -> {
             if (e instanceof TimeoutCancellationException) {
 
+            } else if (e instanceof CancellationException) {
+
             } else {
-                sender.sendGroupMsg(m, "点播取消！");
+//                sender.sendGroupMsg(m, "点播取消！");
             }
         }).build();
         sessionContext.waiting(SelectNumGroup, key, callback);
@@ -114,11 +122,9 @@ public class MusicListener {
     public void SelectNumListen(GroupMsg m, ListenerContext context) {
         final ContinuousSessionScopeContext session = (ContinuousSessionScopeContext) context.getContext(ListenerContext.Scope.CONTINUOUS_SESSION);
         assert session != null;
-
         final String groupCode = m.getGroupInfo().getGroupCode();
         final String accountCode = m.getAccountInfo().getAccountCode();
         String key = groupCode + ":" + accountCode;
-
         session.push(SelectNumGroup, key, Integer.parseInt(m.getText()) - 1);
     }
 }

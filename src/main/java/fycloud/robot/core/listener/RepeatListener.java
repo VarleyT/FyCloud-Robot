@@ -1,10 +1,10 @@
 package fycloud.robot.core.listener;
 
-import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.Sender;
+import love.forte.simbot.listener.ListenerContext;
 
 /**
  * @author 19634
@@ -16,8 +16,7 @@ import love.forte.simbot.api.sender.Sender;
 @OnGroup
 @OnPrivate
 public class RepeatListener {
-    public void Listen(GroupMsg m, Sender sender){
-        System.out.println(m.getMsg());
-        sender.sendGroupMsg(m,m.getMsg());
+    public void Listen(GroupMsg m, Sender sender, ListenerContext context){
+
     }
 }
