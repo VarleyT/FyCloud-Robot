@@ -3,6 +3,7 @@ package fycloud.robot.core.listener;
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
 import catcode.Neko;
+import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.APIs;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
@@ -20,7 +21,6 @@ import love.forte.simbot.filter.MatchType;
  * @date 2022/5/9 19:26
  */
 @Beans
-@Slf4j
 public class AtActionListener {
     @OnGroup
     @Filter(value = "(丢|爬)", matchType = MatchType.REGEX_FIND)
@@ -28,7 +28,7 @@ public class AtActionListener {
         if (!msg.getMsg().matches("(丢|爬)(\\[)CAT:at.+")){
             return;
         }
-        log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <丢爬> 功能--> " + msg.getMsg());
+        FyRobotApp.logger.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <丢爬> 功能--> " + msg.getMsg());
         CatCodeUtil catCodeUtil = CatCodeUtil.getInstance();
         String catCode = catCodeUtil.getCat(msg.getMsg(), 0);
         String code = catCodeUtil.getParam(catCode, "code");

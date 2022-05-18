@@ -6,7 +6,7 @@
 
     <groupId>org.fycloud</groupId>
     <artifactId>FyCloud-Robot</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,13 +37,15 @@
             <version>${simbot.version}</version>
         </dependency>
         <dependency>
-            <groupId>love.forte.common</groupId>
-            <artifactId>configuration</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <optional>true</optional>
             <version>1.18.24</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
     </dependencies>
 

@@ -5,6 +5,7 @@ import catcode.CodeBuilder;
 import catcode.Neko;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.APIs;
 import fycloud.robot.util.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +22,11 @@ import love.forte.simbot.filter.MatchType;
  * @date 2022/5/7 23:55
  */
 @Beans
-@Slf4j
 public class BeautyPicListener {
-
     @OnGroup
     @Filter(value = "(来点好看|来点好康)",matchType = MatchType.REGEX_FIND)
     public void listen(GroupMsg m, Sender sender){
-        log.info(m.getAccountInfo().getAccountNickname() + "(" + m.getAccountInfo().getAccountCode() + ") 在 " + m.getGroupInfo().getGroupName() + "(" + m.getGroupInfo().getGroupCode() + ") " + " 调用了 <看图> 功能--> " + m.getText());
+        FyRobotApp.logger.info(m.getAccountInfo().getAccountNickname() + "(" + m.getAccountInfo().getAccountCode() + ") 在 " + m.getGroupInfo().getGroupName() + "(" + m.getGroupInfo().getGroupCode() + ") " + " 调用了 <看图> 功能--> " + m.getText());
         final String responseJSON = HttpUtil.doGET(APIs.BeautyPic_API);
         JSONObject result = JSON.parseObject(responseJSON);
         JSONObject data = result.getJSONObject("data");
