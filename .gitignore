@@ -4,4 +4,5 @@
 !**/src/test/**/target/
 
 *.bot
+*.log
 APIs.java

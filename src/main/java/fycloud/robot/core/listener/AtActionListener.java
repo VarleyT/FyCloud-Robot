@@ -47,4 +47,5 @@ public class AtActionListener {
                 .build();
         sender.sendGroupMsg(msg, imgCard.toString());
     }
+
 }
