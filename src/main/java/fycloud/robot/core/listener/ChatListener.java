@@ -1,5 +1,7 @@
 package fycloud.robot.core.listener;
 
+import catcode.CatCodeUtil;
+import catcode.CodeBuilder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import fycloud.robot.FyRobotApp;
@@ -27,6 +29,16 @@ public class ChatListener {
         String question = msg.getText().trim();
         JSONObject json = JSON.parseObject(HttpUtil.doGET(String.format(APIs.XiaoBai_API.XiaoAi, question)));
         String answer = json.getString("text");
-        sender.sendGroupMsg(msg, answer);
+        final CodeBuilder<String> codeBuilder = CatCodeUtil.getInstance().getStringCodeBuilder("record", false);
+        if (answer.equals("")){
+            String audio = json.getString("mp3");
+            String catCode = codeBuilder
+                    .key("file").value(audio)
+                    .build();
+            sender.sendGroupMsg(msg,catCode);
+        }else {
+            sender.sendGroupMsg(msg, answer);
+        }
+
     }
 }
