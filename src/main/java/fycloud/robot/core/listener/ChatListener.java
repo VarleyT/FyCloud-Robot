@@ -20,6 +20,9 @@ public class ChatListener {
     @OnGroup
     @Filter(atBot = true)
     public void start(GroupMsg msg, Sender sender) {
+        if(!msg.getMsg().matches("(\\[)CAT:at.+")){
+            return;
+        }
         FyRobotApp.logger.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <聊天> 功能--> " + msg.getMsg());
         String question = msg.getText().trim();
         JSONObject json = JSON.parseObject(HttpUtil.doGET(String.format(APIs.XiaoBai_API.XiaoAi, question)));
