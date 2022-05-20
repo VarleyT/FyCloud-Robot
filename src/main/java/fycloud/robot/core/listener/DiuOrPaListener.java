@@ -18,7 +18,7 @@ import love.forte.simbot.filter.MatchType;
  * @date 2022/5/9 19:26
  */
 @Beans
-public class AtActionListener {
+public class DiuOrPaListener {
     @OnGroup
     @Filter(value = "(丢|爬)", matchType = MatchType.REGEX_FIND)
     public void diuOrPa(GroupMsg msg, Sender sender) {
