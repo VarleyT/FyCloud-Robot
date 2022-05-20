@@ -1,6 +1,5 @@
 package fycloud.robot.core.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import fycloud.robot.core.APIs;
@@ -18,8 +17,7 @@ import java.util.stream.Collectors;
  */
 public class NeteaseSongSearch {
     public static List<NeteaseMusicInfo> SongOfList(String Name) {
-        final String resultJson = HttpUtil.doGET(String.format(APIs.Netease_API.search, Name));
-        final JSONObject response = JSON.parseObject(resultJson);
+        JSONObject response = HttpUtil.Get(String.format(APIs.Netease_API.search, Name));
         final JSONObject result = response.getJSONObject("result");
         final JSONArray songs = result.getJSONArray("songs");
         List<NeteaseMusicInfo> SongLists = new ArrayList<>();
@@ -42,7 +40,7 @@ public class NeteaseSongSearch {
     }
 
     public static NeteaseMusicInfo SongDetail(NeteaseMusicInfo neteaseMusicInfo, String SongId) {
-        final JSONObject response = JSON.parseObject(HttpUtil.doGET(String.format(APIs.Netease_API.mp3url, SongId)));
+        JSONObject response = HttpUtil.Get(String.format(APIs.Netease_API.mp3url, SongId));
         JSONArray data = response.getJSONArray("data");
         final String mp3Url = data.getJSONObject(0).getString("url");
         return new NeteaseMusicInfo(neteaseMusicInfo.getId(), neteaseMusicInfo.getName(), neteaseMusicInfo.getAuthor(), neteaseMusicInfo.getImgUrl(), mp3Url, neteaseMusicInfo.getJumpUrl());

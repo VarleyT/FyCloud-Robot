@@ -6,7 +6,6 @@ import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.entity.netease.NeteaseMusicInfo;
 import fycloud.robot.core.service.NeteaseSongSearch;
 import kotlinx.coroutines.TimeoutCancellationException;
-import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.annotation.Filter;
@@ -26,9 +25,6 @@ import love.forte.simbot.listener.SessionCallback;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.concurrent.CancellationException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author 19634
@@ -106,7 +102,6 @@ public class MusicListener {
             } else if (e instanceof CancellationException) {
 
             } else {
-//                sender.sendGroupMsg(m, "点播取消！");
             }
         }).build();
         sessionContext.waiting(SelectNumGroup, key, callback);

@@ -1,6 +1,5 @@
 package fycloud.robot.core.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import fycloud.robot.core.APIs;
@@ -12,7 +11,6 @@ import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.message.events.GroupMsg;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +27,11 @@ public class GenshinPrayService {
     private Map<String, String> param = new HashMap<>();
 
     public GenshinPrayService() {
-        header.put("authorzation", APIs.genshinPrayAuthorzation);
+        header.put("authorzation", APIs.GenshinPray.genshinPrayAuthorzation);
     }
 
     public MessageContent Pray(String type, boolean isOne, GroupMsg msg,MessageContentBuilderFactory factory) {
-        String requestUrl = APIs.genshinPray_API;
+        String requestUrl = APIs.GenshinPray.genshinPray_API;
         if (type.equals(GenshinPrayType.role)) {
             requestUrl += GenshinPrayType.role;
         } else if (type.equals(GenshinPrayType.arm)) {
@@ -53,7 +51,7 @@ public class GenshinPrayService {
 
         param.put("memberCode", msg.getAccountInfo().getAccountCode());
         param.put("memberName",msg.getAccountInfo().getAccountNickname());
-        final JSONObject response = JSON.parseObject(HttpUtil.doGET(requestUrl, header, param));
+        JSONObject response = HttpUtil.Get(requestUrl,param,header);
         final JSONObject data = response.getJSONObject("data");
 
         JSONArray star4Arrays = data.getJSONArray("star4Goods");

@@ -2,7 +2,6 @@ package fycloud.robot.core.listener;
 
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.APIs;
@@ -25,7 +24,7 @@ public class SingerListener {
     @Filter(value = "(唱首歌|来首歌|唱歌)", matchType = MatchType.REGEX_MATCHES)
     public void listen(GroupMsg msg, Sender sender) {
         FyRobotApp.logger.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") "+" 调用了 <唱歌> 功能--> " + msg.getText());
-        JSONObject response = JSON.parseObject(HttpUtil.doGET(APIs.XiaoBai_API.Sing));
+        JSONObject response = HttpUtil.Get(APIs.XiaoBai_API.Sing);
         JSONObject data = response.getJSONObject("data");
         String audioUrl = data.getString("audioSrc");
         final CodeBuilder<String> codeBuilder = CatCodeUtil.getInstance().getStringCodeBuilder("record", false);

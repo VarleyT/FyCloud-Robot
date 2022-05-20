@@ -1,95 +1,132 @@
 package fycloud.robot.util;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+/**
+ * @author VarleyT
+ * @date 2022/5/20 19:06
+ */
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
-import static java.util.regex.Pattern.matches;
-
 /**
- * @author 19634
- * @version 1.0
- * @date 2022/4/22 16:42
+ * @author VarleyT
+ * @date 2022/5/20 13:03
  */
 public class HttpUtil {
+    private static OkHttpClient client;
+    private static Request request;
+
+    static {
+        client = new OkHttpClient();
+        request = new Request.Builder()
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36")
+                .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+                .addHeader("Content-Type", "application/json;charset=UTF-8")
+                .url("http://www.baidu.com/")
+                .build();
+    }
+
     /**
-     * GET方法
+     * Get请求
+     *
+     * @param url
+     * @param params
+     * @param headers
+     * @return JSONObject
      */
-    public static String doGET(String httpUrl) {
-        return doGET(httpUrl, null);
-    }
-
-    public static String doGET(String httpUrl, Map<String, String> header) {
-        return doGET(httpUrl, header, null);
-    }
-
-    public static String doGET(String httpUrl, Map<String, String> header, Map<String, String> param) {
-        String result = "";
-        InputStream is;
-        BufferedReader br;
-        try {
-            if (param != null) {
-                httpUrl += "?";
-                param.forEach((key, value) -> {
-                    if (matches("[\u4e00-\u9fa5]+", value)) {
-                        try {
-                            param.replace(key, URLEncoder.encode(value, "utf-8"));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                for (String key : param.keySet()) {
-                    httpUrl += key + "=" + param.get(key) + "&";
-                }
-                httpUrl = httpUrl.substring(0, httpUrl.length() - 1);
-            }
-            URL url = new URL(httpUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36");
-            connection.setRequestProperty("Content-Type","application/json;charset=utf8");
-            if (header != null) {
-                for (String key : header.keySet()) {
-                    connection.setRequestProperty(key, header.get(key));
-                }
-            }
-            connection.connect();
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                is = connection.getInputStream();
-                br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    result += line;
-                }
-                br.close();
-                is.close();
-                connection.disconnect();
-            } else {
-                connection.disconnect();
-                throw new RuntimeException("URL连接失败!!" + " [ " + responseCode + " ] ");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static JSONObject Get(String url, Map<String, String> params, Map<String, String> headers) {
+        if (params != null) {
+            url += GetParams(params);
         }
-        return result;
+        request = request.newBuilder()
+                .url(url)
+                .build();
+        if (headers != null) {
+            request = request.newBuilder()
+                    .headers(GetHeaders(headers))
+                    .build();
+        }
+        return Request(request);
     }
 
-
-    /**
-     * POST方法
-     */
-    public static String doPOST(String HttpUrl) {
-        return doPOST(HttpUrl,null);
+    public static JSONObject Get(String url, Map<String, String> params) {
+        return Get(url, params, null);
     }
-    public static String doPOST(String HttpUrl, Map<String, String> header){
-        return null;
+
+    public static JSONObject Get(String url) {
+        return Get(url, null, null);
+    }
+
+    public static JSONObject Post(String url, Map<String, String> params, Map<String, String> headers) {
+        request = request.newBuilder()
+                .url(url)
+                .build();
+        if (params != null) {
+            final MediaType parse = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(parse, JSON.toJSONString(params));
+            request = request.newBuilder()
+                    .post(requestBody)
+                    .build();
+        }
+        if (headers != null) {
+            for (Map.Entry<String, String> entry :
+                    headers.entrySet()) {
+                request = request.newBuilder()
+                        .addHeader(entry.getKey(),entry.getValue())
+                        .build();
+            }
+        }
+        return Request(request);
+    }
+
+    private static JSONObject Request(Request request){
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            if (response.isSuccessful()) {
+                JSONObject responseJsonObject = JSON.parseObject(response.body().string());
+                return responseJsonObject;
+            }else {
+                throw new RuntimeException("网页请求失败！");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String GetParams(Map<String, String> params) {
+        StringBuilder builder = new StringBuilder("?");
+        params.forEach((key, value) -> {
+            if (value.matches("[\u4e00-\u9fa5]+")) {
+                try {
+                    String newValue = URLEncoder.encode(value, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            builder.append(key)
+                    .append("=")
+                    .append(value)
+                    .append("&");
+        });
+        builder.deleteCharAt(builder.length() - 1);
+        return builder.toString();
+    }
+
+    private static Headers GetHeaders(Map<String, String> headers) {
+        Headers header = null;
+        Headers.Builder builder = new Headers.Builder();
+        headers.forEach((key, value) -> {
+            builder.add(key, value);
+        });
+        header = builder.build();
+        return header;
     }
 }
+

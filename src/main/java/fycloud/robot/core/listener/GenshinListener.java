@@ -3,7 +3,6 @@ package fycloud.robot.core.listener;
 import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.entity.genshin.GenshinPrayType;
 import fycloud.robot.core.service.GenshinPrayService;
-import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.annotation.Filter;
