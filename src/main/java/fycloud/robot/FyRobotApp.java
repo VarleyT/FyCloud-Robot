@@ -16,6 +16,6 @@ public class FyRobotApp {
 
     public static void main(String[] args) {
         final SimbotContext simbotContext = SimbotApp.run(FyRobotApp.class, args);
-        logger.info(new Date().toString()+" " + "Robot启动成功");
+        logger.info(" " + "Robot启动成功");
     }
 }
