@@ -3,6 +3,7 @@
 !**/src/main/**/target/
 !**/src/test/**/target/
 /cache/
+/logs/
 
 *.bot
 *.log

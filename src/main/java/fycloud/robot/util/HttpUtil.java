@@ -7,6 +7,8 @@ package fycloud.robot.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import fycloud.robot.FyRobotApp;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -18,8 +20,9 @@ import java.util.Map;
  * @author VarleyT
  * @date 2022/5/20 13:03
  */
+@Slf4j
 public class HttpUtil {
-    private static OkHttpClient client;
+    private static final OkHttpClient client;
     private static Request request;
 
     static {
@@ -89,10 +92,11 @@ public class HttpUtil {
         Call call = client.newCall(request);
         try {
             Response response = call.execute();
-            if (response.isSuccessful()) {
+            if (response.code() == 200) {
                 JSONObject responseJsonObject = JSON.parseObject(response.body().string());
                 return responseJsonObject;
             }else {
+                log.error("网页请求失败！");
                 throw new RuntimeException("网页请求失败！");
             }
         } catch (IOException e) {

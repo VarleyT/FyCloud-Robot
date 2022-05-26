@@ -6,6 +6,7 @@ import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.entity.netease.NeteaseMusicInfo;
 import fycloud.robot.core.service.NeteaseSongSearch;
 import kotlinx.coroutines.TimeoutCancellationException;
+import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.annotation.Filter;
@@ -33,6 +34,7 @@ import java.util.concurrent.CancellationException;
  */
 
 @Beans
+@Slf4j
 public class MusicListener {
     private final String SelectNumGroup = "SelectNumGroup_1n5z2ia";
 
@@ -42,7 +44,7 @@ public class MusicListener {
     @OnGroup
     @Filter(value = "(点歌|搜歌){{name}}", matchType = MatchType.REGEX_MATCHES)
     public void start(@FilterValue("name")String searchSongName, GroupMsg m, ListenerContext context, Sender sender) {
-        FyRobotApp.logger.info(m.getAccountInfo().getAccountNickname() + "(" + m.getAccountInfo().getAccountCode() + ") 在 " + m.getGroupInfo().getGroupName() + "(" + m.getGroupInfo().getGroupCode() + ") " + " 调用了 <点歌> 功能--> " + m.getText());
+        log.info(m.getAccountInfo().getAccountNickname() + "(" + m.getAccountInfo().getAccountCode() + ") 在 " + m.getGroupInfo().getGroupName() + "(" + m.getGroupInfo().getGroupCode() + ") " + " 调用了 <点歌> 功能--> " + m.getText());
         String EncodedName = "";
         try {
             EncodedName = URLEncoder.encode(searchSongName, "utf-8");

@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
  */
 
 public class GenshinPrayService {
-    private Map<String, String> header = new HashMap<>();
-    private Map<String, String> param = new HashMap<>();
+    private final Map<String, String> header = new HashMap<>();
+    private final Map<String, String> param = new HashMap<>();
 
     public GenshinPrayService() {
         header.put("authorzation", APIs.GenshinPray.genshinPrayAuthorzation);

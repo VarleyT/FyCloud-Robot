@@ -9,6 +9,7 @@ import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.APIs;
 import fycloud.robot.core.entity.chat.ChatResourceInfo;
 import fycloud.robot.util.HttpUtil;
+import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
  * @date 2022/5/20 19:37
  */
 @Beans
+@Slf4j
 public class ChatListener {
     @OnGroup
     @Filter(atBot = true)
@@ -35,7 +37,7 @@ public class ChatListener {
         if (!msg.getMsg().matches("(\\[)CAT:at.+")){
             return;
         }
-        FyRobotApp.logger.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <聊天> 功能--> " + msg.getText());
+        log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <聊天> 功能--> " + msg.getText());
         Map<String, String> params = new HashMap<>();
         Map<String, String> headers = new HashMap<>();
         String nickName = msg.getAccountInfo().getAccountNickname();

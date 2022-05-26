@@ -1,21 +1,23 @@
 package fycloud.robot;
 
+import fycloud.robot.core.RobotCore;
+import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.annotation.SimbotApplication;
 import love.forte.simbot.core.SimbotApp;
 import love.forte.simbot.core.SimbotContext;
-import org.apache.log4j.Logger;
-
-import java.util.Date;
 
 /**
  * @author 19634
  */
 @SimbotApplication
+@Slf4j
 public class FyRobotApp {
-    public static final Logger logger = Logger.getLogger(FyRobotApp.class);
+    public static SimbotContext simbotContext;
+    public static RobotCore ROBOT_CORE;
 
     public static void main(String[] args) {
-        final SimbotContext simbotContext = SimbotApp.run(FyRobotApp.class, args);
-        logger.info(" " + "Robot启动成功");
+        simbotContext = SimbotApp.run(FyRobotApp.class, args);
+        ROBOT_CORE = new RobotCore(simbotContext);
+        log.info(" " + "Robot启动成功");
     }
 }
