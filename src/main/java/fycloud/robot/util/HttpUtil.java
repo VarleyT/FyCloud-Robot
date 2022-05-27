@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author VarleyT
@@ -22,11 +23,10 @@ import java.util.Map;
  */
 @Slf4j
 public class HttpUtil {
-    private static final OkHttpClient client;
+//    private static final OkHttpClient client;
     private static Request request;
 
     static {
-        client = new OkHttpClient();
         request = new Request.Builder()
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36")
                 .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -89,6 +89,7 @@ public class HttpUtil {
     }
 
     private static JSONObject Request(Request request){
+        OkHttpClient client = new OkHttpClient();
         Call call = client.newCall(request);
         try {
             Response response = call.execute();

@@ -3,11 +3,20 @@ package fycloud.robot.core.scheduled;
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
 import catcode.Neko;
-import fycloud.robot.FyRobotApp;
+import fycloud.robot.core.listener.MusicListener;
 import lombok.extern.slf4j.Slf4j;
-import love.forte.simbot.api.sender.BotSender;
+import love.forte.common.ioc.annotation.Beans;
+import love.forte.common.ioc.annotation.Depend;
+import love.forte.simbot.api.message.MessageContent;
+import love.forte.simbot.api.message.MessageContentBuilder;
+import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.sender.Sender;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Calendar;
 
@@ -17,23 +26,22 @@ import java.util.Calendar;
  */
 @Slf4j
 public class WeekScheduled {
-    public static void task(Sender sender) {
+    public void task(Sender sender) {
         int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
         if (day == 0) {
             day = 7;
         }
-        String fileName = day + ".jpeg";
-        URL file = WeekScheduled.class.getClassLoader().getResource("WeekTimer/" + fileName);
-
+        String filePath = "classpath:" + "week/" + day + ".jpeg";
         final CodeBuilder<Neko> nekoBuilder = CatCodeUtil.getInstance().getNekoBuilder("image", false);
         Neko imgCard = nekoBuilder
-                .key("file").value(file)
+                .key("file").value(filePath)
                 .build();
         for (long groupCode : ScheduledManager.ScheduledGroups) {
             try {
-                sender.sendGroupMsg(groupCode,imgCard.toString());
-            }catch (Exception e){
-                log.error("定时任务发送异常！");
+                sender.sendGroupMsg(groupCode, imgCard.toString());
+                log.info("每日摸鱼发送完成");
+            } catch (Exception e) {
+                log.error("每日摸鱼发送异常！\n" + "Cased By: " + e.getMessage());
             }
         }
     }
