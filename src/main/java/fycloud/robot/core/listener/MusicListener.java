@@ -9,10 +9,7 @@ import kotlinx.coroutines.TimeoutCancellationException;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
-import love.forte.simbot.annotation.Filter;
-import love.forte.simbot.annotation.FilterValue;
-import love.forte.simbot.annotation.OnGroup;
-import love.forte.simbot.annotation.OnlySession;
+import love.forte.simbot.annotation.*;
 import love.forte.simbot.api.message.MessageContent;
 import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
@@ -37,7 +34,6 @@ import java.util.concurrent.CancellationException;
 @Slf4j
 public class MusicListener {
     private final String SelectNumGroup = "SelectNumGroup_1n5z2ia";
-
     @Depend
     public MessageContentBuilderFactory messageContentBuilderFactory;
 
@@ -93,7 +89,6 @@ public class MusicListener {
             if (e instanceof TimeoutCancellationException) {
                 sender.sendGroupMsg(m, "超时啦！请重新点歌");
             } else if (e instanceof CancellationException){
-
             } else {
                 e.printStackTrace();
                 sender.sendGroupMsg(m, "出错了！请尝试重新点播");
