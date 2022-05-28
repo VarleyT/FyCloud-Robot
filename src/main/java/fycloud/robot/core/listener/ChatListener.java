@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import fycloud.robot.core.APIs;
 import fycloud.robot.core.entity.chat.ChatResourceInfo;
 import fycloud.robot.util.HttpUtil;
+import fycloud.robot.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
@@ -34,7 +35,7 @@ public class ChatListener {
         if (!msg.getMsg().matches("(\\[)CAT:at.+")){
             return;
         }
-        log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <聊天> 功能--> " + msg.getText());
+        log.info(LogUtil.getLog(msg, "聊天"));
         Map<String, String> params = new HashMap<>();
         Map<String, String> headers = new HashMap<>();
         String nickName = msg.getAccountInfo().getAccountNickname();

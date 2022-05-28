@@ -1,7 +1,6 @@
 package fycloud.robot.core.listener;
 
 import fycloud.robot.FyRobotApp;
-import fycloud.robot.core.RobotCore;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
@@ -19,7 +18,7 @@ public class BootListener {
     @OnGroup
     @Filter(value = "开机")
     public void boot(GroupMsg msg, Sender sender) {
-        if (checkPermission(msg.getAccountInfo().getAccountCode())) {
+        if (checkPermission(msg)) {
             if (FyRobotApp.ROBOT_CORE.isBoot) {
                 sender.sendGroupMsg(msg, "BOT已经启动");
             } else {
@@ -30,14 +29,13 @@ public class BootListener {
             sender.sendGroupMsg(msg, "权限不足");
         }
     }
-
     @OnGroup
     @Filter(value = "关机")
     public void shutdown(GroupMsg msg, Sender sender) {
-        if (checkPermission(msg.getAccountInfo().getAccountCode())) {
+        if (checkPermission(msg)) {
             if (FyRobotApp.ROBOT_CORE.isBoot) {
                 FyRobotApp.ROBOT_CORE.isBoot = false;
-                sender.sendGroupMsg(msg, "BOT关闭成功");
+                sender.sendGroupMsg(msg, "BOT关机成功");
             } else {
                 sender.sendGroupMsg(msg, "BOT已经关闭");
             }
@@ -46,11 +44,15 @@ public class BootListener {
         }
     }
 
-    public static boolean checkPermission(String code) {
+    public static boolean checkPermission(GroupMsg msg) {
+        String accountCode = msg.getAccountInfo().getAccountCode();
         for (long adminCode : FyRobotApp.ROBOT_CORE.adminCode) {
-            if (code.equals(String.valueOf(adminCode))) {
+            if (accountCode.equals(String.valueOf(adminCode))) {
                 return true;
             }
+        }
+        if (msg.getPermission().isOwnerOrAdmin()) {
+            return true;
         }
         return false;
     }

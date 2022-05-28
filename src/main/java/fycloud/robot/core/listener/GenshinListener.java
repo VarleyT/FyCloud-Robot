@@ -2,6 +2,7 @@ package fycloud.robot.core.listener;
 
 import fycloud.robot.core.entity.genshin.GenshinPrayType;
 import fycloud.robot.core.service.GenshinPrayService;
+import fycloud.robot.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
@@ -32,7 +33,7 @@ public class GenshinListener {
             @Filter(value = "常驻{{param}}",matchType = MatchType.REGEX_MATCHES)
     })
     public void RolePray(@FilterValue("param")String param, GroupMsg msg, Sender sender) {
-        log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") "+" 调用了 <祈愿> 功能--> " + msg.getText());
+        log.info(LogUtil.getLog(msg, "祈愿"));
         GenshinPrayService prayService = new GenshinPrayService();
         String pefix = msg.getText().substring(0,2);
         boolean isOne = false;

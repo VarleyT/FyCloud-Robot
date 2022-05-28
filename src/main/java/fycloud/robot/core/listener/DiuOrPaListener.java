@@ -4,6 +4,7 @@ import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
 import catcode.Neko;
 import fycloud.robot.core.APIs;
+import fycloud.robot.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
@@ -26,7 +27,7 @@ public class DiuOrPaListener {
         if (!msg.getMsg().matches("(丢|爬)(\\[)CAT:at.+")){
             return;
         }
-        log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <丢爬> 功能--> " + msg.getMsg());
+        log.info(LogUtil.getLog(msg, "丢爬"));
         CatCodeUtil catCodeUtil = CatCodeUtil.getInstance();
         String catCode = catCodeUtil.getCat(msg.getMsg(), 0);
         String code = catCodeUtil.getParam(catCode, "code");

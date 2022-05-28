@@ -4,6 +4,7 @@ import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
 import catcode.Neko;
 import fycloud.robot.FyRobotApp;
+import fycloud.robot.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
@@ -39,7 +40,7 @@ public class NudgeListener {
             return;
         }
 
-        log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <戳一戳> 功能--> " + msg.getMsg());
+        log.info(LogUtil.getLog(msg, "戳一戳"));
         int randomNum = new Random().nextInt(res.length);
         String resPath = res[randomNum];
         final CodeBuilder<Neko> nekoBuilder = CatCodeUtil.getInstance().getNekoBuilder("image", false);

@@ -16,10 +16,14 @@ public class BootInterceptor implements ListenerInterceptor {
     @NotNull
     @Override
     public InterceptionType intercept(@NotNull ListenerInterceptContext context) {
-        if (FyRobotApp.ROBOT_CORE.isBoot){
-            return InterceptionType.PASS;
-        }else {
-            return InterceptionType.INTERCEPT;
+        String functionName = context.getListenerFunction().getName();
+        if (!(functionName.equals("boot") || functionName.equals("shutdown"))) {
+            if (FyRobotApp.ROBOT_CORE.isBoot){
+                return InterceptionType.PASS;
+            }else {
+                return InterceptionType.INTERCEPT;
+            }
         }
+        return InterceptionType.PASS;
     }
 }
