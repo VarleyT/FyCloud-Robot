@@ -24,7 +24,7 @@ import love.forte.simbot.filter.MatchType;
 public class LookLookListener {
     @OnGroup
     @Filter(value = "(看看腿|来点好看|来点好康).*",matchType = MatchType.REGEX_MATCHES)
-    public void listener(GroupMsg msg, Sender sender){
+    public void look(GroupMsg msg, Sender sender){
         log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <看看> 功能--> " + msg.getText());
         JSONObject result = HttpUtil.Get(APIs.DuJiaoShou_API.LookLook);
         String imgUrl = result.getString("text");

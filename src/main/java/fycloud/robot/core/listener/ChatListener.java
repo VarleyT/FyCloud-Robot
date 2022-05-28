@@ -5,7 +5,6 @@ import catcode.CodeBuilder;
 import catcode.Neko;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.APIs;
 import fycloud.robot.core.entity.chat.ChatResourceInfo;
 import fycloud.robot.util.HttpUtil;
@@ -13,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
-import love.forte.simbot.api.message.MessageContent;
-import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.Sender;
 
@@ -33,7 +30,7 @@ import java.util.stream.Collectors;
 public class ChatListener {
     @OnGroup
     @Filter(atBot = true)
-    public void listener(GroupMsg msg, Sender sender) {
+    public void chat(GroupMsg msg, Sender sender) {
         if (!msg.getMsg().matches("(\\[)CAT:at.+")){
             return;
         }

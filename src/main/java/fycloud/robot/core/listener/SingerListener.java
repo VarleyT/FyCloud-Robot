@@ -24,7 +24,7 @@ import love.forte.simbot.filter.MatchType;
 public class SingerListener {
     @OnGroup
     @Filter(value = "(唱首歌|来首歌|唱歌)", matchType = MatchType.REGEX_MATCHES)
-    public void listen(GroupMsg msg, Sender sender) {
+    public void sing(GroupMsg msg, Sender sender) {
         log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") "+" 调用了 <唱歌> 功能--> " + msg.getText());
         JSONObject response = HttpUtil.Get(APIs.XiaoBai_API.Sing);
         JSONObject data = response.getJSONObject("data");

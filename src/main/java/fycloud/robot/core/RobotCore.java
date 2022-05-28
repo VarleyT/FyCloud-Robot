@@ -23,7 +23,10 @@ public class RobotCore {
     public static ScheduledExecutorService SCHEDULED_POOL;
     public Bot defaultBot;
     public Sender sender;
-
+    public boolean isBoot = true;
+    public final long[] adminCode = {
+            1963460510
+    };
     static {
         THREAD_POOL = Executors.newFixedThreadPool(10);
         SCHEDULED_POOL = Executors.newScheduledThreadPool(10);

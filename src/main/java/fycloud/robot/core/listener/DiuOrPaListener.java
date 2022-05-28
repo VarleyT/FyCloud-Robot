@@ -3,7 +3,6 @@ package fycloud.robot.core.listener;
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
 import catcode.Neko;
-import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.APIs;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
