@@ -3,12 +3,14 @@ package fycloud.robot.core.listener;
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
 import catcode.Neko;
+import fycloud.robot.FyRobotApp;
 import lombok.extern.slf4j.Slf4j;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.Sender;
+import love.forte.simbot.bot.Bot;
 import love.forte.simbot.filter.FilterTargets;
 import love.forte.simbot.filter.MatchType;
 
@@ -31,6 +33,13 @@ public class NudgeListener {
     @OnGroup
     @Filter(target = FilterTargets.MSG, value = "(\\[)CAT:nudge.+", matchType = MatchType.REGEX_MATCHES)
     public void listener(GroupMsg msg, Sender sender) {
+        CatCodeUtil util = CatCodeUtil.INSTANCE;
+        String targetCode = util.getParam(msg.getMsg(), "target");
+        String botCode = FyRobotApp.ROBOT_CORE.defaultBot.getBotInfo().getBotCode();
+        if (!targetCode.equals(botCode)) {
+            return;
+        }
+
         log.info(msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ") 在 " + msg.getGroupInfo().getGroupName() + "(" + msg.getGroupInfo().getGroupCode() + ") " + " 调用了 <戳一戳> 功能--> ");
         int randomNum = new Random().nextInt(res.length);
         String resPath = res[randomNum];
