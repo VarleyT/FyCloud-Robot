@@ -19,28 +19,40 @@ public class BootListener {
     @Filter(value = "开机")
     public void boot(GroupMsg msg, Sender sender) {
         if (checkPermission(msg)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("【状态】\n")
+                    .append("当前群：" + msg.getGroupInfo().getGroupName() + "\n")
+                    .append("操作人：" + msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ")\n")
+                    .append("BOT状态：");
             if (FyRobotApp.ROBOT_CORE.isBoot) {
-                sender.sendGroupMsg(msg, "BOT已经启动");
+                sb.append("已处于开机状态");
             } else {
                 FyRobotApp.ROBOT_CORE.isBoot = true;
-                sender.sendGroupMsg(msg, "BOT启动成功");
+                sb.append("已开机");
             }
+            sender.sendGroupMsg(msg, sb.toString());
         } else {
-            sender.sendGroupMsg(msg, "权限不足");
+            sender.sendGroupMsg(msg, "权限不足！");
         }
     }
     @OnGroup
     @Filter(value = "关机")
     public void shutdown(GroupMsg msg, Sender sender) {
         if (checkPermission(msg)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("【状态】\n")
+                    .append("当前群：" + msg.getGroupInfo().getGroupName() + "\n")
+                    .append("操作人：" + msg.getAccountInfo().getAccountNickname() + "(" + msg.getAccountInfo().getAccountCode() + ")\n")
+                    .append("BOT状态：");
             if (FyRobotApp.ROBOT_CORE.isBoot) {
                 FyRobotApp.ROBOT_CORE.isBoot = false;
-                sender.sendGroupMsg(msg, "BOT关机成功");
+                sb.append("已关机");
             } else {
-                sender.sendGroupMsg(msg, "BOT已经关闭");
+                sb.append("已处于关机状态");
             }
+            sender.sendGroupMsg(msg, sb.toString());
         } else {
-            sender.sendGroupMsg(msg, "权限不足");
+            sender.sendGroupMsg(msg, "权限不足！");
         }
     }
 

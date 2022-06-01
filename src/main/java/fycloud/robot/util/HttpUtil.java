@@ -23,10 +23,16 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public class HttpUtil {
-//    private static final OkHttpClient client;
+    private static OkHttpClient client;
     private static Request request;
 
     static {
+        client = new OkHttpClient().newBuilder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .connectionPool(new ConnectionPool(5, 1, TimeUnit.MINUTES))
+                .build();
         request = new Request.Builder()
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36")
                 .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -81,28 +87,28 @@ public class HttpUtil {
             for (Map.Entry<String, String> entry :
                     headers.entrySet()) {
                 request = request.newBuilder()
-                        .addHeader(entry.getKey(),entry.getValue())
+                        .addHeader(entry.getKey(), entry.getValue())
                         .build();
             }
         }
         return Request(request);
     }
 
-    private static JSONObject Request(Request request){
-        OkHttpClient client = new OkHttpClient();
+    private static JSONObject Request(Request request) {
         Call call = client.newCall(request);
         try {
             Response response = call.execute();
             if (response.code() == 200) {
-                JSONObject responseJsonObject = JSON.parseObject(response.body().string());
-                return responseJsonObject;
-            }else {
-                log.error("网页请求失败！");
-                throw new RuntimeException("网页请求失败！");
+                return JSON.parseObject(response.body().string());
+            } else {
+                log.error("网页请求失败，状态码：{}，请求体：{}", response.code(), response.body().string());
+                throw new RuntimeException("网页请求失败");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("网页请求出错！Cased by：{}", e.getMessage());
+            e.printStackTrace();
         }
+        return null;
     }
 
     private static String GetParams(Map<String, String> params) {

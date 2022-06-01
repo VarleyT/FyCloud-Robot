@@ -30,12 +30,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ChatListener {
     @OnGroup
-    @Filter(atBot = true)
+    @Filter(atBot = true, trim = true)
     public void chat(GroupMsg msg, Sender sender) {
-        if (!msg.getMsg().matches("(\\[)CAT:at.+")){
+        if (!msg.getMsg().matches("(\\[)CAT:at.+")) {
+            log.info("消息不是CAT:at开头" + msg.getMsg());
             return;
         }
         log.info(LogUtil.getLog(msg, "聊天"));
+        if (msg.getText().trim().equals("")) {
+            sender.sendGroupMsg(msg, "[CAT:at,code=" + msg.getAccountInfo().getAccountCode() + "]你说啥？");
+            return;
+        }
         Map<String, String> params = new HashMap<>();
         Map<String, String> headers = new HashMap<>();
         String nickName = msg.getAccountInfo().getAccountNickname();
