@@ -1,8 +1,8 @@
 # 项目排除路径
-/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
-/cache/
+/target/
+cache/
 /logs/
 
 *.bot
