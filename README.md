@@ -9,8 +9,10 @@
  - Maven
  - [Jdk-1.8](https://www.oracle.com/java/technologies/downloads/) 及以上
 
-## 功能
-### 娱乐功能
+## 功能列表
+
+**娱乐功能**
+
  - 聊天
  - 点歌
  - 唱歌
@@ -18,7 +20,7 @@
  - 好康的图
  - 原神祈愿
 
-### 管理功能
+**管理功能**
  - 开关机
 
 ## TODO
