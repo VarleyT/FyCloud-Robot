@@ -4,11 +4,13 @@
 <img alt="repo-size" src="https://img.shields.io/github/repo-size/VarleyT/FyCloud-Robot"/>
 <img alt="last-commit" src="https://img.shields.io/github/last-commit/VarleyT/FyCloud-Robot"/>
 <img alt="top-language" src="https://img.shields.io/github/languages/top/VarleyT/FyCloud-Robot" />
-<a href="./COPYING"><img alt="copying" src="https://img.shields.io/github/license/VarleyT/FyCloud-Robot" /></a>
+<img alt="copying" src="https://img.shields.io/github/license/VarleyT/FyCloud-Robot" />
 <br>
 基于 <a href="https://github.com/ForteScarlet/simpler-robot/tree/v2-dev" target="_blank">Simbot-v2</a> 的QQ机器人项目
 <br>
 API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-robot-doc" target="_blank">BOT开发手册</a>
+<br><br>
+开源许可 <a href="https://img.shields.io/github/license/VarleyT/FyCloud-Robot" target="_blank">LGPL-v2.1</a>
 <hr>
 </div>
 
