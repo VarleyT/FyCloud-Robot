@@ -8,12 +8,13 @@
 <img alt="copying" src="https://img.shields.io/github/license/VarleyT/FyCloud-Robot" />
 <br>
 项目地址 <a href="https://github.com/VarleyT/FyCloud-Robot" target="_blank">Github</a>
-<br>
+<br><br>
 基于 <a href="https://github.com/ForteScarlet/simpler-robot/tree/v2-dev" target="_blank">Simbot-v2</a> 的QQ机器人项目
 <br>
 API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-robot-doc" target="_blank">BOT开发手册</a>
 </div>
 
+<br>
 ## 项目环境
  - Maven
  - [Jdk-1.8](https://www.oracle.com/java/technologies/downloads/) 及以上
