@@ -1,4 +1,5 @@
 <div align="center">
+<hr>
 <h1>FyCloud-Robot </h1>
 <img alt="watchers" src="https://img.shields.io/github/watchers/VarleyT/FyCloud-Robot"/>
 <img alt="repo-size" src="https://img.shields.io/github/repo-size/VarleyT/FyCloud-Robot"/>
@@ -6,16 +7,12 @@
 <img alt="top-language" src="https://img.shields.io/github/languages/top/VarleyT/FyCloud-Robot" />
 <img alt="copying" src="https://img.shields.io/github/license/VarleyT/FyCloud-Robot" />
 <br>
+项目地址 <a href="https://github.com/VarleyT/FyCloud-Robot" target="_blank">Github</a>
+<br>
 基于 <a href="https://github.com/ForteScarlet/simpler-robot/tree/v2-dev" target="_blank">Simbot-v2</a> 的QQ机器人项目
 <br>
 API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-robot-doc" target="_blank">BOT开发手册</a>
-<br><br>
-开源许可 <a href="https://img.shields.io/github/license/VarleyT/FyCloud-Robot" target="_blank">LGPL-v2.1</a>
-<hr>
 </div>
-
-## 项目地址
-[Github](https://github.com/VarleyT/FyCloud-Robot)
 
 ## 项目环境
  - Maven
