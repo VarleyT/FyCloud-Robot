@@ -24,9 +24,9 @@ import love.forte.simbot.filter.MatchType;
 @Slf4j
 public class LookLookListener {
     @OnGroup
-    @Filter(value = "(看看腿|来点好看|来点好康).*",matchType = MatchType.REGEX_MATCHES)
+    @Filter(value = "(来点好看|来点好康).*",matchType = MatchType.REGEX_MATCHES)
     public void look(GroupMsg msg, Sender sender){
-        log.info(LogUtil.getLog(msg, "看看腿"));
+        log.info(LogUtil.getLog(msg, "来点好康的"));
         JSONObject result = HttpUtil.Get(APIs.DuJiaoShou_API.LookLook);
         String imgUrl = result.getString("text");
         final CodeBuilder<Neko> nekoBuilder = CatCodeUtil.getInstance().getNekoBuilder("image", false);
