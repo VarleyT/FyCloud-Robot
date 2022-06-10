@@ -1,6 +1,6 @@
 # FyCloud-Robot
 基于[Simbot-v2](https://github.com/ForteScarlet/simpler-robot/tree/v2-dev) 的QQ机器人项目
-<br/>API帮助文档 [BOT开发手册](https://www.yuque.com/simpler-robot/simpler-robot-doc)
+<br/>API帮助文档 参阅：[BOT开发手册](https://www.yuque.com/simpler-robot/simpler-robot-doc)
 
 ## 项目地址
 [Github](https://github.com/VarleyT/FyCloud-Robot)
