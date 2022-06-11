@@ -6,6 +6,7 @@ import love.forte.simbot.annotation.SimbotApplication;
 import love.forte.simbot.core.SimbotApp;
 import love.forte.simbot.core.SimbotContext;
 
+
 /**
  * @author 19634
  */
