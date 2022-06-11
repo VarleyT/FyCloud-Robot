@@ -1,18 +1,15 @@
 package fycloud.robot.core;
 
 import cn.hutool.core.date.DateTime;
-import fycloud.robot.FyRobotApp;
 import fycloud.robot.core.scheduled.ScheduledManager;
-import fycloud.robot.core.scheduled.WeekScheduled;
 import lombok.extern.slf4j.Slf4j;
-import love.forte.simbot.api.sender.BotSender;
 import love.forte.simbot.api.sender.Sender;
 import love.forte.simbot.bot.Bot;
 import love.forte.simbot.core.SimbotContext;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author 19634
