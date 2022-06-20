@@ -31,18 +31,18 @@ public class WeekScheduled {
         if (day == 0) {
             day = 7;
         }
-        String filePath = "classpath:" + "week/" + day + ".jpeg";
+        String filePath = "classpath:" + "other/week/" + day + ".jpeg";
         final CodeBuilder<Neko> nekoBuilder = CatCodeUtil.getInstance().getNekoBuilder("image", false);
         Neko imgCard = nekoBuilder
                 .key("file").value(filePath)
                 .build();
-        for (long groupCode : ScheduledManager.ScheduledGroups) {
-            try {
-                sender.sendGroupMsg(groupCode, imgCard.toString());
-                log.info("每日摸鱼发送完成");
-            } catch (Exception e) {
-                log.error("每日摸鱼发送异常！\n" + "Cased By: " + e.getMessage());
-            }
+
+        try {
+            ScheduledManager.sendMsg(imgCard.toString());
+            log.info("每日摸鱼发送完成");
+        } catch (Exception e) {
+            log.error("每日摸鱼发送异常！\n" + "Cased By: " + e.getMessage());
         }
+
     }
 }

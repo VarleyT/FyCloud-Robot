@@ -2,6 +2,7 @@ package fycloud.robot.core.listener;
 
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
+import catcode.CodeTemplate;
 import catcode.Neko;
 import fycloud.robot.FyRobotApp;
 import fycloud.robot.util.LogUtil;
@@ -23,10 +24,11 @@ import java.util.Random;
 @Beans
 @Slf4j
 public class NudgeListener {
+    private static final String localResPath = "classpath:other/nudge/";
+
     private static String[] res = {
-            "classpath:emoji/1.jpg", "classpath:emoji/2.jpg", "classpath:emoji/3.jpg", "classpath:emoji/4.jpg",
-            "classpath:emoji/5.jpg", "classpath:emoji/6.jpg", "classpath:emoji/7.jpg", "classpath:emoji/8.jpg",
-            "classpath:emoji/1.gif",
+            "1.gif", "2.gif", "3.gif", "4.gif", "5.gif",
+            "1.jpg", "2.jpg",
             "干哈？", "哼(ˉ(∞)ˉ)唧", "(☞0 ☜)眼睛啊啊啊", "[╯•́•̀╰]让我静静", "不＞(￣ε￣ = ￣3￣)<要", "( •̀⊿•́)ง妖妖灵吗？我要报警了！"
     };
 
@@ -39,16 +41,14 @@ public class NudgeListener {
         if (!targetCode.equals(botCode)) {
             return;
         }
-
         log.info(LogUtil.getLog(msg, "戳一戳"));
+
         int randomNum = new Random().nextInt(res.length);
         String resPath = res[randomNum];
-        final CodeBuilder<Neko> nekoBuilder = CatCodeUtil.getInstance().getNekoBuilder("image", false);
-        if (resPath.matches("classpath:emoji/.+")) {
-            Neko context = nekoBuilder
-                    .key("file").value(resPath)
-                    .build();
-            sender.sendGroupMsg(msg, context.toString());
+        CodeTemplate<String> template = util.getStringTemplate();
+        if (resPath.matches("\\d+\\..*")) {
+            String context = template.image(localResPath + resPath);
+            sender.sendGroupMsg(msg, context);
         } else {
             sender.sendGroupMsg(msg, resPath);
         }

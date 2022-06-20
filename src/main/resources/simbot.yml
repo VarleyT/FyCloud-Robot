@@ -3,4 +3,4 @@ simbot:
     mirai:
       # 使用协议类型。注，此值为枚举类 net.mamoe.mirai.utils.BotConfiguration.MiraiProtocol 的元素值，
       # 可选值为：ANDROID_PHONE、ANDROID_PAD、ANDROID_WATCH
-      protocol: IPAD
+      protocol: ANDROID_PHONE

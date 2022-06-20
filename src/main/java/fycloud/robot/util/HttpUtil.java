@@ -1,10 +1,5 @@
 package fycloud.robot.util;
 
-/**
- * @author VarleyT
- * @date 2022/5/20 19:06
- */
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import fycloud.robot.FyRobotApp;

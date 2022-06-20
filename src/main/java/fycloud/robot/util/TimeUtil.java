@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2022/5/30 0:04
  */
 public class TimeUtil {
-    public static String getRuntime(){
+    public static String getRunningTime(){
         DateTime NOW_TIME = DateTime.now();
         DateTime START_TIME = FyRobotApp.ROBOT_CORE.START_TIME;
         StringBuilder sb = new StringBuilder();
@@ -26,4 +26,5 @@ public class TimeUtil {
                 .append("秒");
         return sb.toString();
     }
+
 }

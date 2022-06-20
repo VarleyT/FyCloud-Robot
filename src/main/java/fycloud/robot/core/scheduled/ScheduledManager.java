@@ -5,6 +5,7 @@ import fycloud.robot.core.RobotCore;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +23,21 @@ public class ScheduledManager {
         RobotCore.SCHEDULED_POOL.scheduleAtFixedRate(() -> {
             new WeekScheduled().task(FyRobotApp.ROBOT_CORE.sender);
         }, (24 + 8 - new Date().getHours()) % 24, 24, TimeUnit.HOURS);
+
+        RobotCore.SCHEDULED_POOL.scheduleAtFixedRate(() -> {
+            if (new Date().getHours() < 8 || new Date().getHours() > 23) {
+                if (new Random().nextDouble() > 0.9) {
+                    new RandomScheduled().task(FyRobotApp.ROBOT_CORE.sender);
+                }
+            }
+        }, 0, 1, TimeUnit.HOURS);
         log.info("定时任务加载成功");
+    }
+
+    public static void sendMsg(String msg) throws RuntimeException {
+        for (long scheduledGroup : ScheduledGroups) {
+            FyRobotApp.ROBOT_CORE.sender.sendGroupMsg(scheduledGroup, msg);
+
+        }
     }
 }

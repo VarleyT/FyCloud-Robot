@@ -14,7 +14,7 @@ import love.forte.simbot.api.sender.Sender;
  */
 @Beans
 @Slf4j
-public class BootListener {
+public class BootListener{
     @OnGroup
     @Filter(value = "开机")
     public void boot(GroupMsg msg, Sender sender) {
@@ -68,4 +68,5 @@ public class BootListener {
         }
         return false;
     }
+
 }
