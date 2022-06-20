@@ -40,6 +40,7 @@ API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-ro
  - [ ] 群功能管理
  - [ ] 中国象棋游戏
  - [ ] 时间限制
+ - [ ] ~~合并转发消息 （延后）~~
 
 ## 开源许可
 [GNU Lesser General Public License v2.1](https://github.com/VarleyT/FyCloud-Robot/blob/master/LICENSE)
