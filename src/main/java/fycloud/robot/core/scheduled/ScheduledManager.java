@@ -25,8 +25,8 @@ public class ScheduledManager {
         }, (24 + 8 - new Date().getHours()) % 24, 24, TimeUnit.HOURS);
 
         RobotCore.SCHEDULED_POOL.scheduleAtFixedRate(() -> {
-            if (new Date().getHours() < 8 || new Date().getHours() > 23) {
-                if (new Random().nextDouble() > 0.9) {
+            if (new Date().getHours() > 8 && new Date().getHours() < 23) {
+                if (new Random().nextDouble() > 0.95) {
                     new RandomScheduled().task(FyRobotApp.ROBOT_CORE.sender);
                 }
             }

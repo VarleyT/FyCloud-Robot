@@ -9,6 +9,7 @@ import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.Sender;
+import love.forte.simbot.listener.ListenerContext;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

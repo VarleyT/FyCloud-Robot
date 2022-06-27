@@ -26,7 +26,7 @@ public class HttpUtil {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .connectionPool(new ConnectionPool(5, 1, TimeUnit.MINUTES))
+                .connectionPool(new ConnectionPool(10, 15, TimeUnit.SECONDS))
                 .build();
         request = new Request.Builder()
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36")

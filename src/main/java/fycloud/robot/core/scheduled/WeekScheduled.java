@@ -31,7 +31,7 @@ public class WeekScheduled {
         if (day == 0) {
             day = 7;
         }
-        String filePath = "classpath:" + "other/week/" + day + ".jpeg";
+        String filePath = "classpath:" + "other/week/" + day + ".jpg";
         final CodeBuilder<Neko> nekoBuilder = CatCodeUtil.getInstance().getNekoBuilder("image", false);
         Neko imgCard = nekoBuilder
                 .key("file").value(filePath)
