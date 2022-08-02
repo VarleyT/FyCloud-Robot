@@ -21,8 +21,7 @@ public class RepeatListener {
     public void repeat(GroupMsg msg, Sender sender) {
         log.info(LogUtil.getLog(msg, "复读"));
 
-        String msgContent = msg.getMsg();
-        msgContent.replaceAll(".*复读", "");
+        String msgContent = msg.getText().replaceAll(".*复读", "");
         sender.sendGroupMsg(msg, msgContent);
     }
 }
