@@ -33,7 +33,6 @@ public class ChatListener {
     @Filter(atBot = true, trim = true)
     public void chat(GroupMsg msg, Sender sender) {
         if (!msg.getMsg().matches("(\\[)CAT:at.+")) {
-            log.info("消息不是CAT:at开头" + msg.getMsg());
             return;
         }
         log.info(LogUtil.getLog(msg, "聊天"));
