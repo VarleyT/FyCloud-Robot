@@ -30,6 +30,7 @@ public class MenuListener {
                 .append("5.网易云点歌：点歌|搜歌 [歌名]\n")
                 .append("6.戳一戳：戳头像触发\n")
                 .append("7.唱歌：唱首歌|来首歌|唱歌\n")
+                .append("8.抖音解析：解析|抖音解析 [抖音视频链接]\n")
                 .append("\n")
                 .append("二、管理功能(需相应权限)\n")
                 .append("1.开关机：开机|关机\n")

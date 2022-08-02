@@ -35,7 +35,7 @@ API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-ro
 
 ## TODO
 
- - [ ] 抖音解析
+ - [x] 抖音解析
  - [ ] 批量撤回
  - [ ] 群功能管理
  - [ ] 中国象棋游戏
