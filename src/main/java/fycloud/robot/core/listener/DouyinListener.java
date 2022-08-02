@@ -30,13 +30,20 @@ public class DouyinListener {
             @Filter(value = "抖音解析{{url}}",matchType = MatchType.REGEX_MATCHES)
     })
     public void douyin(GroupMsg msg, Sender sender, @FilterValue("url")String originalText){
+        String r = "https:\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&:/~\\+#]*[\\w\\-\\@?^=%&/~\\+#])?";
+        Pattern p1 = Pattern.compile(r);
+        Matcher m1 = p1.matcher(originalText);
+        if (!m1.find()){
+            return;
+        }
+
         log.info(LogUtil.getLog(msg, "抖音解析"));
         final String regex = "https://v\\.douyin\\.com/\\w{7}/";
         Pattern p = Pattern.compile(regex);
-        Matcher matcher = p.matcher(originalText);
+        Matcher m = p.matcher(originalText);
         String originalUrl = "";
-        if (matcher.find()) {
-            originalUrl = matcher.group(0);
+        if (m.find()) {
+            originalUrl = m.group(0);
         }else {
             sender.sendGroupMsg(msg, "解析失败，请输入正确的链接");
             return;
