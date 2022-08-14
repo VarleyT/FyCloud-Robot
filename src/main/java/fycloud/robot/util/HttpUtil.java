@@ -2,7 +2,6 @@ package fycloud.robot.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import fycloud.robot.FyRobotApp;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
