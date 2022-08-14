@@ -29,9 +29,12 @@ API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-ro
  - 丢爬
  - 好康的图
  - 原神祈愿
+ - 抖音解析
 
 **管理功能**
+
  - 开关机
+ - 运行状态
 
 ## TODO
 
