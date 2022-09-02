@@ -1,0 +1,52 @@
+spring:
+  profiles:
+    active: dev
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${DB.host}:${DB.port:3306}/${DB.database}?characterEncoding=utf-8
+    username: ${DB.username}
+    password: ${DB.password}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 3
+      auto-commit: true
+      pool-name: FyBotHikariCP
+
+
+simbot:
+  core:
+    bots: ${BOT.code}:${BOT.passwd}
+
+bot:
+  #机器人管理员
+  admin: ${BOT.admin}
+
+API:
+  #茉莉机器人API
+  #来源：https://mly.app/
+  #请求方式：POST
+  MoLiCloud:
+    CHAT_API: "https://i.mly.app/reply"
+    RESOURCES_API: "https://files.molicloud.com/"
+    API_KEY: ${APIs.MoLiCloud.API_KEY}
+    API_SECRET: ${APIs.MoLiCloud.API_SECRET}
+
+  #原神模拟抽卡API
+  #作者：@GardenHamster:github.com
+  #项目地址：https://github.com/GardenHamster/GenshinPray
+  GenShinPray:
+    PRAY_API: "https://www.theresa3rd.cn:8080/api"
+    AUTHORIZATION: ${APIs.GenShinPray.AUTHORIZATION}
+
+  #林魂云API
+  #来源：https://api.linhun.vip/
+  LinHunYun:
+    DOU_YIN: "https://api.linhun.vip/api/Douyin?url=%s"
+
+  #小白API
+  #来源：https://api.klizi.cn/
+  XiaoBaiAPI:
+    SING: "http://xiaobai.klizi.cn/API/music/changya.php"
+
+
