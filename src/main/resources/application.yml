@@ -13,10 +13,12 @@ spring:
       auto-commit: true
       pool-name: FyBotHikariCP
 
-
 simbot:
   core:
     bots: ${BOT.code}:${BOT.passwd}
+  component:
+    mirai:
+      protocol: ipad
 
 bot:
   #机器人管理员
