@@ -54,6 +54,6 @@ API帮助文档 参阅：[BOT-v2开发手册](https://www.yuque.com/simpler-robo
 - [ ] 随机群事件
 
 ## 开源许可
-[GNU Lesser General Public License v2.1](https://github.com/VarleyT/FyCloud-Robot/blob/master/LICENSE)
+[GNU Lesser General Public License v2.1](https://github.com/VarleyT/FyCloud-Robot/blob/spring/LICENSE)
 
 

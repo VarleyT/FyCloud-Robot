@@ -8,10 +8,11 @@ spring:
     username: ${DB.username}
     password: ${DB.password}
     hikari:
-      maximum-pool-size: 10
+      maximum-pool-size: 20
       minimum-idle: 3
       auto-commit: true
       pool-name: FyBotHikariCP
+      max-lifetime: 30000
 
 simbot:
   core:
@@ -50,5 +51,3 @@ API:
   #来源：https://api.klizi.cn/
   XiaoBaiAPI:
     SING: "http://xiaobai.klizi.cn/API/music/changya.php"
-
-
