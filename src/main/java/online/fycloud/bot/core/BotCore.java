@@ -1,6 +1,7 @@
 package online.fycloud.bot.core;
 
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.TimeInterval;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import love.forte.simbot.api.message.results.GroupList;
 import love.forte.simbot.api.sender.BotSender;
 import love.forte.simbot.bot.Bot;
 import love.forte.simbot.bot.BotManager;
+import online.fycloud.bot.core.config.BotConfig;
 import online.fycloud.bot.core.entity.BootStatusInfo;
 import online.fycloud.bot.core.service.BootStatusService;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -35,12 +38,7 @@ public class BotCore {
     /**
      * 群开关缓存
      */
-    public static Map<Long, Boolean> BOOT_MAP;
-    /**
-     * 机器人管理员
-     */
-    @Value("${bot.admin}")
-    public static Long ADMINISTRATOR;
+    public static Map<Long, Boolean> BOOT_MAP = new HashMap<>();
     /**
      * 全局Bot
      */
@@ -50,9 +48,9 @@ public class BotCore {
      */
     public static BotSender sender;
     /**
-     * 启动时间
+     * 全局计时器
      */
-    public static DateTime startDateTime;
+    public static final TimeInterval TIMER = new TimeInterval();
     /**
      * 上下文
      */
@@ -63,8 +61,7 @@ public class BotCore {
 
     static {
         SCHEDULED_POOL = new ScheduledThreadPoolExecutor(10);
-        BOOT_MAP = new HashMap<>();
-        startDateTime = DateTime.now();
+        TIMER.start("RunTime");
     }
 
     public BotCore(ApplicationContext applicationContext, BootStatusService bootStatusService) {
