@@ -19,6 +19,7 @@ import love.forte.simbot.component.mirai.message.MiraiMessageContentBuilderFacto
 import love.forte.simbot.filter.MatchType;
 import online.fycloud.bot.core.BotCore;
 import online.fycloud.bot.core.config.BotApis;
+import online.fycloud.bot.core.interceptor.LimitedType;
 import online.fycloud.bot.core.util.BotHttpUtil;
 import online.fycloud.bot.entertainment.entity.ImageInfo;
 import online.fycloud.bot.entertainment.service.ImageService;
@@ -40,7 +41,7 @@ import java.util.stream.Collectors;
  */
 @Component
 @Slf4j
-@ListenGroup("GroupListenerFunction")
+@ListenGroup(LimitedType.BOOT_AND_TIME_LIMIT)
 public class GroupListener {
     @Autowired
     private MessageContentBuilderFactory messageContentBuilderFactory;

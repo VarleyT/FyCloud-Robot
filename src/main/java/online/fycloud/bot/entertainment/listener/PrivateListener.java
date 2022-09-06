@@ -1,14 +1,12 @@
 package online.fycloud.bot.entertainment.listener;
 
-import love.forte.common.ioc.annotation.Beans;
-import love.forte.simbot.annotation.ListenGroup;
+import org.springframework.stereotype.Component;
 
 /**
  * @author VarleyT
  *
  */
-@Beans
-@ListenGroup("PrivateListenerFunction")
+@Component
 public class PrivateListener {
 
 }
