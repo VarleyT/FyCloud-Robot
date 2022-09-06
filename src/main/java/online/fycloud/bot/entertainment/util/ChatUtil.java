@@ -6,10 +6,10 @@ import catcode.Neko;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import love.forte.simbot.api.message.events.GroupMsg;
-import love.forte.simbot.api.sender.Sender;
+import online.fycloud.bot.core.config.BotApis;
 import online.fycloud.bot.core.util.BotHttpUtil;
 import online.fycloud.bot.entertainment.entity.ChatResourceInfo;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,14 +24,8 @@ import java.util.stream.Collectors;
  */
 @Component
 public class ChatUtil {
-    @Value("${API.MoLiCloud.CHAT_API}")
-    private String MoLi_ChatApi;
-    @Value("${API.MoLiCloud.RESOURCES_API}")
-    private String MoLi_ResourceApi;
-    @Value("${API.MoLiCloud.API_KEY}")
-    private String MoLi_ApiKey;
-    @Value("${API.MoLiCloud.API_SECRET}")
-    private String MoLi_ApiSecret;
+    @Autowired
+    private BotApis botApis;
 
     public List<String> chat(GroupMsg msg){
         String text = msg.getText();
@@ -44,10 +38,10 @@ public class ChatUtil {
             put("to", groupCode);
         }};
         Map<String, String> header = new HashMap<String, String>(2) {{
-            put("Api-Key", MoLi_ApiKey);
-            put("Api-Secret", MoLi_ApiSecret);
+            put("Api-Key", botApis.getMoLi_ApiKey());
+            put("Api-Secret", botApis.getMoLi_ApiSecret());
         }};
-        JSONObject jsonObject = BotHttpUtil.doPost(MoLi_ChatApi, header, body);
+        JSONObject jsonObject = BotHttpUtil.doPost(botApis.getMoLi_ChatApi(), header, body);
         //解析json
         JSONArray data = jsonObject.getJSONArray("data");
         List<ChatResourceInfo> resourceInfos = data.stream().map(obj -> {
@@ -77,7 +71,7 @@ public class ChatUtil {
         StringBuilder imgAndTextCard = new StringBuilder();
         if (!imgList.isEmpty()) {
             imgList.forEach(str -> {
-                imgAndTextCard.append(imgBuilder.key("url").value(MoLi_ResourceApi + str).build());
+                imgAndTextCard.append(imgBuilder.key("url").value(botApis.getMoLi_ResourceApi() + str).build());
                 imgAndTextCard.append(" ");
             });
         }
@@ -85,7 +79,7 @@ public class ChatUtil {
         List<String> list = new ArrayList<>();
         list.add(imgAndTextCard.toString());
         if (!audioList.isEmpty()) {
-            String audio = audioBuilder.key("file").value(MoLi_ResourceApi + audioList.get(0)).build();
+            String audio = audioBuilder.key("file").value(botApis.getMoLi_ResourceApi() + audioList.get(0)).build();
             list.add(audio);
         }
         return list;

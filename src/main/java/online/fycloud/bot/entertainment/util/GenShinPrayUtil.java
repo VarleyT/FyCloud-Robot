@@ -2,17 +2,15 @@ package online.fycloud.bot.entertainment.util;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import love.forte.common.ioc.annotation.Beans;
-import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.api.message.MessageContent;
 import love.forte.simbot.api.message.MessageContentBuilder;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.message.containers.AccountInfo;
+import online.fycloud.bot.core.config.BotApis;
 import online.fycloud.bot.core.util.BotHttpUtil;
 import online.fycloud.bot.entertainment.entity.GenShinPrayInfo;
 import online.fycloud.bot.entertainment.entity.GenShinPrayType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -24,18 +22,13 @@ import java.util.stream.Collectors;
  */
 @Component
 public class GenShinPrayUtil {
-
-    @Value("${API.GenShinPray.AUTHORIZATION}")
-    private String GenShinPrayAuthorization;
-
-    @Value("${API.GenShinPray.PRAY_API}")
-    private String GenShinPrayApi;
-
+    @Autowired
+    private BotApis botApis;
     @Autowired
     private MessageContentBuilderFactory factory;
 
     public MessageContent pray(AccountInfo accountInfo, String prayPool, boolean isOne) {
-        String url = GenShinPrayApi;
+        String url = botApis.getGenShinPray_Api();
 
         if ("角色".equals(prayPool)) {
             url += GenShinPrayType.ROLE.getValue();
@@ -54,7 +47,7 @@ public class GenShinPrayUtil {
             put("memberName", accountInfo.getAccountNickname());
         }};
         HashMap<String, String> headerMap = new HashMap<String, String>(1) {{
-            put("authorzation", GenShinPrayAuthorization);
+            put("authorzation", botApis.getGenShinPray_Authorization());
         }};
         final JSONObject json = BotHttpUtil.doGet(url, paramMap, headerMap);
         final JSONObject data = json.getJSONObject("data");

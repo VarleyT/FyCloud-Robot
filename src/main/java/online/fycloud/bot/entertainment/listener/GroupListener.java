@@ -3,7 +3,6 @@ package online.fycloud.bot.entertainment.listener;
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
 import catcode.CodeTemplate;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -19,15 +18,13 @@ import love.forte.simbot.component.mirai.message.MiraiMessageContentBuilder;
 import love.forte.simbot.component.mirai.message.MiraiMessageContentBuilderFactory;
 import love.forte.simbot.filter.MatchType;
 import online.fycloud.bot.core.BotCore;
+import online.fycloud.bot.core.config.BotApis;
 import online.fycloud.bot.core.util.BotHttpUtil;
 import online.fycloud.bot.entertainment.entity.ImageInfo;
-import online.fycloud.bot.entertainment.entity.SongInfo;
 import online.fycloud.bot.entertainment.service.ImageService;
-import online.fycloud.bot.entertainment.service.SongService;
 import online.fycloud.bot.entertainment.util.ChatUtil;
 import online.fycloud.bot.entertainment.util.GenShinPrayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -47,7 +44,8 @@ import java.util.stream.Collectors;
 public class GroupListener {
     @Autowired
     private MessageContentBuilderFactory messageContentBuilderFactory;
-
+    @Autowired
+    private BotApis botApis;
 
     @Autowired
     private ChatUtil chatUtil;
@@ -101,9 +99,6 @@ public class GroupListener {
         sender.sendGroupMsg(msg, content);
     }
 
-    @Value("${API.LinHunYun.DOU_YIN}")
-    private String DouYinApi;
-
     /**
      * 抖音视频解析功能
      *
@@ -138,7 +133,7 @@ public class GroupListener {
         if (originalUrl.equals("")) {
             return;
         }
-        String request = String.format(DouYinApi, originalUrl);
+        String request = String.format(botApis.getLinHun_DouYinApi(), originalUrl);
         JSONObject jsonObject = BotHttpUtil.doGet(request);
         if (!jsonObject.getString("code").equals("200")) {
             try {
@@ -158,9 +153,6 @@ public class GroupListener {
         sender.sendGroupMsg(msg, url);
     }
 
-    @Value("${API.XiaoBaiAPI.SING}")
-    private String SingApi;
-
     /**
      * 唱歌功能
      *
@@ -173,7 +165,7 @@ public class GroupListener {
                 msg.getGroupInfo().getGroupName(), msg.getGroupInfo().getGroupCode(),
                 msg.getAccountInfo().getAccountNickname(), msg.getAccountInfo().getAccountCode(),
                 msg.getMsg());
-        JSONObject response = BotHttpUtil.doGet(SingApi);
+        JSONObject response = BotHttpUtil.doGet(botApis.getXiaoBai_SingApi());
         if (response == null || response.isEmpty()){
             log.error("SingApi返回值response为空！");
             return;
