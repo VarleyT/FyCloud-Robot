@@ -1,6 +1,12 @@
+<center>
+
+# 已停止维护 项目移动至spring分支
+
+</center>
+
 <div align="center">
 <hr>
-<h1>FyCloud-Robot </h1>
+<h1> <s>FyCloud-Robot</s> </h1>
 <img alt="watchers" src="https://img.shields.io/github/watchers/VarleyT/FyCloud-Robot"/>
 <img alt="repo-size" src="https://img.shields.io/github/repo-size/VarleyT/FyCloud-Robot"/>
 <img alt="last-commit" src="https://img.shields.io/github/last-commit/VarleyT/FyCloud-Robot"/>
@@ -15,11 +21,11 @@ API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-ro
 </div>
 <br>
 
-## 项目环境
+## ~~项目环境~~
  - Maven
  - [Jdk-1.8](https://www.oracle.com/java/technologies/downloads/) 及以上
 
-## 功能列表
+## ~~功能列表~~
 
 **娱乐功能**
 
@@ -36,7 +42,7 @@ API帮助文档 参阅：<a href="https://www.yuque.com/simpler-robot/simpler-ro
  - 开关机
  - 运行状态
 
-## TODO
+## ~~TODO~~
 
  - [x] 抖音解析
  - [ ] 批量撤回
