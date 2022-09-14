@@ -15,8 +15,8 @@ spring:
       max-lifetime: 30000
 
 simbot:
-  core:
-    bots: ${BOT.code}:${BOT.passwd}
+#  core:
+#    bots: ${BOT.code}:${BOT.passwd}
   component:
     mirai:
       protocol: ipad

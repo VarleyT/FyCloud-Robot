@@ -1,6 +1,5 @@
 package online.fycloud.bot.core;
 
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.TimeInterval;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.Getter;
@@ -9,10 +8,8 @@ import love.forte.simbot.api.message.results.GroupList;
 import love.forte.simbot.api.sender.BotSender;
 import love.forte.simbot.bot.Bot;
 import love.forte.simbot.bot.BotManager;
-import online.fycloud.bot.core.config.BotConfig;
 import online.fycloud.bot.core.entity.BootStatusInfo;
 import online.fycloud.bot.core.service.BootStatusService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +17,6 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -56,7 +52,7 @@ public class BotCore {
      */
     @Getter
     private final ApplicationContext applicationContext;
-    private BootStatusService bootStatusService;
+    private final BootStatusService bootStatusService;
 
 
     static {
