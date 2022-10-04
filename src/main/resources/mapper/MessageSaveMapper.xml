@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.fycloud.bot.core.mapper.MessageSaveMapper">
+    <select id="countByTime" resultType="int">
+        select count(*) from group_message where group_code = ${groupCode}
+        <if test="month&lt;10">
+            and send_time like '${year}-0${month}%'
+        </if>
+        <if test="month&gt;10">
+            and send_time like '${year}-${month}%'
+        </if>
+    </select>
+
+    <select id="frequentSender" resultType="long">
+        select sender_code from group_message where group_code = ${groupCode}
+        <if test="month&lt;10">
+            and send_time like '${year}-0${month}%'
+        </if>
+        <if test="month&gt;10">
+            and send_time like '${year}-${month}%'
+        </if>
+        group by sender_code order by count(*) desc limit 1
+    </select>
+
+    <select id="frequentSenderCount" resultType="int">
+        select count(*) as count from group_message where group_code = ${groupCode}
+        <if test="month&lt;10">
+            and send_time like '${year}-0${month}%'
+        </if>
+        <if test="month&gt;10">
+            and send_time like '${year}-${month}%'
+        </if>
+        group by sender_code order by count desc limit 1
+    </select>
+
+</mapper>
