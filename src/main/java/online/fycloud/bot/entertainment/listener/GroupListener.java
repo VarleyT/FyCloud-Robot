@@ -7,7 +7,10 @@ import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import love.forte.simbot.annotation.*;
+import love.forte.simbot.annotation.Filter;
+import love.forte.simbot.annotation.FilterValue;
+import love.forte.simbot.annotation.Filters;
+import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.MessageContent;
 import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.message.containers.BotInfo;
@@ -18,8 +21,8 @@ import love.forte.simbot.component.mirai.message.MiraiMessageContentBuilder;
 import love.forte.simbot.component.mirai.message.MiraiMessageContentBuilderFactory;
 import love.forte.simbot.filter.MatchType;
 import online.fycloud.bot.core.BotCore;
+import online.fycloud.bot.core.annotation.RobotLimit;
 import online.fycloud.bot.core.config.BotApis;
-import online.fycloud.bot.core.interceptor.LimitedType;
 import online.fycloud.bot.core.util.BotHttpUtil;
 import online.fycloud.bot.entertainment.entity.ImageInfo;
 import online.fycloud.bot.entertainment.service.ImageService;
@@ -39,9 +42,8 @@ import java.util.stream.Collectors;
  * @author VarleyT
  *
  */
-@Component
 @Slf4j
-@ListenGroup(LimitedType.BOOT_AND_TIME_LIMIT)
+@Component
 public class GroupListener {
     @Autowired
     private MessageContentBuilderFactory messageContentBuilderFactory;
@@ -56,6 +58,7 @@ public class GroupListener {
      *
      */
     @OnGroup
+    @RobotLimit
     @Filter(atBot = true, anyAt = true, trim = true)
     public void chat(GroupMsg msg, Sender sender) {
         log.info("[{}] <{}({})> {}({})：{}",
@@ -75,6 +78,7 @@ public class GroupListener {
      *
      */
     @OnGroup
+    @RobotLimit
     @Filters(value = {
             @Filter(value = "角色{{param}}", matchType = MatchType.REGEX_MATCHES),
             @Filter(value = "武器{{param}}", matchType = MatchType.REGEX_MATCHES),
@@ -105,6 +109,7 @@ public class GroupListener {
      *
      */
     @OnGroup
+    @RobotLimit
     @Filters(value = {
             @Filter(value = "解析{{url}}", matchType = MatchType.REGEX_MATCHES),
             @Filter(value = "抖音解析{{url}}", matchType = MatchType.REGEX_MATCHES)
@@ -159,6 +164,7 @@ public class GroupListener {
      *
      */
     @OnGroup
+    @RobotLimit
     @Filter(value = "唱歌|唱首歌|来首歌", matchType = MatchType.REGEX_MATCHES)
     public void sing(GroupMsg msg, Sender sender) {
         log.info("[{}] <{}({})> {}({})：{}",
@@ -194,6 +200,7 @@ public class GroupListener {
      * @param sender
      */
     @OnGroup
+    @RobotLimit
     @Filter(value = "(来点好看的|来点好康的)(\\*\\d+)?.*", matchType = MatchType.REGEX_MATCHES)
     public void image(GroupMsg msg, Sender sender) {
         log.info("[{}] <{}({})> {}({})：{}",

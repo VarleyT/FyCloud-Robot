@@ -2,15 +2,14 @@ package online.fycloud.bot.core.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.annotation.Filter;
-import love.forte.simbot.annotation.ListenGroup;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.containers.GroupAccountInfo;
 import love.forte.simbot.api.message.containers.GroupInfo;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.Getter;
 import love.forte.simbot.api.sender.Sender;
+import online.fycloud.bot.core.annotation.RobotLimit;
 import online.fycloud.bot.core.entity.GroupMsgInfo;
-import online.fycloud.bot.core.interceptor.LimitedType;
 import online.fycloud.bot.core.service.MessageSaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,8 +40,8 @@ public class MessageSaveListener {
     }
 
     @OnGroup
-    @ListenGroup(LimitedType.BOOT_AND_TIME_LIMIT)
     @Filter(value = "月报")
+    @RobotLimit(time = 30000, count = 2)
     public void msgCount(GroupMsg msg, Sender sender, Getter getter) {
         int count = messageSaveService.countByTime(msg);
         long senderCode = messageSaveService.frequentSender(msg);

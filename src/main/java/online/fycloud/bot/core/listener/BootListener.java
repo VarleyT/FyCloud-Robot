@@ -5,13 +5,12 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import love.forte.simbot.annotation.Filter;
-import love.forte.simbot.annotation.ListenGroup;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.Sender;
 import online.fycloud.bot.core.BotCore;
+import online.fycloud.bot.core.annotation.RobotLimit;
 import online.fycloud.bot.core.config.BotConfig;
-import online.fycloud.bot.core.interceptor.LimitedType;
 import online.fycloud.bot.core.service.BootStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,7 @@ import oshi.hardware.GlobalMemory;
  * @author VarleyT
  */
 @Component
-public class BootListener{
+public class BootListener {
     @Autowired
     private BootStatusService bootStatusService;
     @Autowired
@@ -29,6 +28,7 @@ public class BootListener{
 
     @OnGroup
     @Filter(value = "开机")
+    @RobotLimit(boot = false)
     public void boot(GroupMsg msg, Sender sender) {
         if (!checkPermission(msg)) {
             return;
@@ -54,6 +54,7 @@ public class BootListener{
 
     @OnGroup
     @Filter("关机")
+    @RobotLimit(boot = false)
     public void shutdown(GroupMsg msg, Sender sender) {
         if (!checkPermission(msg)) {
             return;
@@ -79,7 +80,7 @@ public class BootListener{
 
     @OnGroup
     @Filter("状态")
-    @ListenGroup(LimitedType.TIME_LIMIT)
+    @RobotLimit(boot = false)
     public void status(GroupMsg msg, Sender sender) {
         String groupCode = msg.getGroupInfo().getGroupCode();
         String groupName = msg.getGroupInfo().getGroupName();
@@ -105,7 +106,7 @@ public class BootListener{
                 .append("\nCPU使用率：" + cpuUsage)
                 .append("\n运行时间：" + BotCore.TIMER.intervalPretty("RunTime"))
                 .append("\n当前时间：" + DateUtil.now());
-        sender.sendGroupMsg(msg,sb.toString());
+        sender.sendGroupMsg(msg, sb.toString());
     }
 
     private boolean checkPermission(GroupMsg msg) {
