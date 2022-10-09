@@ -6,11 +6,11 @@ import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
+import love.forte.simbot.api.message.assists.Permissions;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.Sender;
 import online.fycloud.bot.core.BotCore;
 import online.fycloud.bot.core.annotation.RobotLimit;
-import online.fycloud.bot.core.config.BotConfig;
 import online.fycloud.bot.core.service.BootStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,16 +23,11 @@ import oshi.hardware.GlobalMemory;
 public class BootListener {
     @Autowired
     private BootStatusService bootStatusService;
-    @Autowired
-    private BotConfig botConfig;
 
     @OnGroup
     @Filter(value = "开机")
-    @RobotLimit(boot = false)
+    @RobotLimit(isBoot = false, permission = Permissions.ADMINISTRATOR)
     public void boot(GroupMsg msg, Sender sender) {
-        if (!checkPermission(msg)) {
-            return;
-        }
         String groupName = msg.getGroupInfo().getGroupName();
         String senderName = msg.getAccountInfo().getAccountNickname();
         String senderCode = msg.getAccountInfo().getAccountCode();
@@ -54,11 +49,8 @@ public class BootListener {
 
     @OnGroup
     @Filter("关机")
-    @RobotLimit(boot = false)
+    @RobotLimit(isBoot = false, permission = Permissions.ADMINISTRATOR)
     public void shutdown(GroupMsg msg, Sender sender) {
-        if (!checkPermission(msg)) {
-            return;
-        }
         String groupName = msg.getGroupInfo().getGroupName();
         String senderName = msg.getAccountInfo().getAccountNickname();
         String senderCode = msg.getAccountInfo().getAccountCode();
@@ -80,7 +72,7 @@ public class BootListener {
 
     @OnGroup
     @Filter("状态")
-    @RobotLimit(boot = false)
+    @RobotLimit(isBoot = false, permission = Permissions.ADMINISTRATOR)
     public void status(GroupMsg msg, Sender sender) {
         String groupCode = msg.getGroupInfo().getGroupCode();
         String groupName = msg.getGroupInfo().getGroupName();
@@ -109,10 +101,4 @@ public class BootListener {
         sender.sendGroupMsg(msg, sb.toString());
     }
 
-    private boolean checkPermission(GroupMsg msg) {
-        boolean ownerOrAdmin = msg.getPermission().isOwnerOrAdmin();
-        String numberCode = msg.getAccountInfo().getAccountCode();
-        boolean master = numberCode.equals(botConfig.ADMINISTRATOR);
-        return ownerOrAdmin || master;
-    }
 }

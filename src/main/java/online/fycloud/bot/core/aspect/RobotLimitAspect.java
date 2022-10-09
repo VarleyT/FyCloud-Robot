@@ -1,16 +1,20 @@
 package online.fycloud.bot.core.aspect;
 
 import lombok.extern.slf4j.Slf4j;
+import love.forte.simbot.api.message.assists.Permissions;
 import love.forte.simbot.api.message.events.GroupMsg;
 import net.jodah.expiringmap.ExpirationPolicy;
 import net.jodah.expiringmap.ExpiringMap;
 import online.fycloud.bot.core.BotCore;
 import online.fycloud.bot.core.annotation.RobotLimit;
+import online.fycloud.bot.core.config.BotConfig;
+import online.fycloud.bot.core.util.MsgUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -24,6 +28,9 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @Component
 public class RobotLimitAspect {
+
+    @Autowired
+    private BotConfig botConfig;
     private static ExpiringMap<String, Integer> map = ExpiringMap.builder()
             .variableExpiration().expirationPolicy(ExpirationPolicy.CREATED).build();
 
@@ -36,12 +43,21 @@ public class RobotLimitAspect {
         Object[] args = pjp.getArgs();
         for (Object arg : args) {
             if (arg instanceof GroupMsg) {
-                String groupCode = ((GroupMsg) arg).getGroupInfo().getGroupCode();
+                GroupMsg msg = (GroupMsg) arg;
+                String groupCode = msg.getGroupInfo().getGroupCode();
                 Method method = ((MethodSignature) pjp.getSignature()).getMethod();
                 RobotLimit annotation = method.getAnnotation(RobotLimit.class);
-                if (annotation.boot()) {
+                if (annotation.isBoot()) {
                     if (!BotCore.BOOT_MAP.get(Long.valueOf(groupCode))) {
                         return;
+                    }
+                }
+                if (annotation.permission() != Permissions.MEMBER) {
+                    if (annotation.permission().getLevel() > msg.getAccountInfo().getPermission().getLevel()) {
+                        if (!botConfig.ADMINISTRATOR.equals(msg.getAccountInfo().getAccountCode())) {
+                            MsgUtil.sendMsgByTime(msg, "抱歉，您没有权限操作！");
+                            return;
+                        }
                     }
                 }
                 String methodName = method.getName();
@@ -53,6 +69,7 @@ public class RobotLimitAspect {
                 } else {
                     Integer count = map.get(KEY);
                     if (count >= annotation.count()) {
+                        MsgUtil.sendMsgByTime(msg, "请求频繁");
                         return;
                     }
                     map.put(KEY, count + 1);

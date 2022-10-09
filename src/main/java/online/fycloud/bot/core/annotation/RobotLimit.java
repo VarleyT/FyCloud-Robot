@@ -1,5 +1,7 @@
 package online.fycloud.bot.core.annotation;
 
+import love.forte.simbot.api.message.assists.Permissions;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -32,5 +34,12 @@ public @interface RobotLimit {
      *
      * @return
      */
-    boolean boot() default true;
+    boolean isBoot() default true;
+
+    /**
+     * 权限
+     *
+     * @return
+     */
+    Permissions permission() default Permissions.MEMBER;
 }
