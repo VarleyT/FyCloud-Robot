@@ -6,8 +6,12 @@ import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
+import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.assists.Permissions;
 import love.forte.simbot.api.message.events.GroupMsg;
+import love.forte.simbot.api.message.events.PrivateMsg;
+import love.forte.simbot.api.message.results.GroupFullInfo;
+import love.forte.simbot.api.sender.Getter;
 import love.forte.simbot.api.sender.Sender;
 import online.fycloud.bot.core.BotCore;
 import online.fycloud.bot.core.annotation.RobotLimit;
@@ -15,6 +19,9 @@ import online.fycloud.bot.core.service.BootStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import oshi.hardware.GlobalMemory;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author VarleyT
@@ -101,4 +108,37 @@ public class BootListener {
         sender.sendGroupMsg(msg, sb.toString());
     }
 
+    @OnPrivate
+    @Filter("状态")
+    @RobotLimit(isBoot = false, permission = Permissions.ADMINISTRATOR)
+    public void status(PrivateMsg msg, Sender sender, Getter getter) {
+        GlobalMemory memory = OshiUtil.getMemory();
+        CpuInfo cpu = OshiUtil.getCpuInfo();
+        long available = memory.getAvailable();
+        long total = memory.getTotal();
+        String memUsage = NumberUtil.decimalFormat("#.##%", available * 1.0 / total);
+        String cpuUsage = cpu.getUsed() + "%";
+        Map<Long, Boolean> groupMap = BotCore.BOOT_MAP;
+        Set<Long> groups = groupMap.keySet();
+
+        StringBuilder sb = new StringBuilder("【状态】");
+        sb.append("\nCPU使用率：" + cpuUsage)
+                .append("\n内存使用率：" + memUsage)
+                .append("\n运行时间：" + BotCore.TIMER.intervalPretty("RunTime"))
+                .append("\n----------群状态----------");
+        groups.forEach(group -> {
+            GroupFullInfo groupInfo = getter.getGroupInfo(group);
+            String groupName = groupInfo.getGroupName();
+            String groupCode = groupInfo.getGroupCode();
+            Boolean isBoot = groupMap.get(group);
+            sb.append("\n-" + groupName + "(" + groupCode + ")");
+            sb.append("\n--");
+            if (isBoot) {
+                sb.append("开启√");
+            } else {
+                sb.append("关闭×");
+            }
+        });
+        sender.sendPrivateMsg(msg, sb.toString());
+    }
 }

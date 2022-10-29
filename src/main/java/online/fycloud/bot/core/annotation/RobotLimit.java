@@ -30,7 +30,7 @@ public @interface RobotLimit {
     int count() default 1;
 
     /**
-     * 群开关限制
+     * 群开关限制（私聊消息无效）
      *
      * @return
      */
@@ -38,6 +38,10 @@ public @interface RobotLimit {
 
     /**
      * 权限
+     * MEMBER：群成员
+     * ADMINISTRATOR：管理员
+     * OWNER：群主
+     * 私聊消息中 ADMINISTRATOR与OWNER 均指BOT管理员（非群管理员）
      *
      * @return
      */
