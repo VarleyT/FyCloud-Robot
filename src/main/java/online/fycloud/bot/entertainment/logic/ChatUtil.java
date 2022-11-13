@@ -1,4 +1,4 @@
-package online.fycloud.bot.entertainment.util;
+package online.fycloud.bot.entertainment.logic;
 
 import catcode.CatCodeUtil;
 import catcode.CodeBuilder;
@@ -31,13 +31,13 @@ public class ChatUtil {
         String text = msg.getText();
         String senderCode = msg.getAccountInfo().getAccountCode();
         String groupCode = msg.getGroupInfo().getGroupCode();
-        Map<String, String> body = new HashMap<String, String>(4) {{
+        Map<String, String> body = new HashMap<>(4) {{
             put("content", text);
             put("type", "2");
             put("from", senderCode);
             put("to", groupCode);
         }};
-        Map<String, String> header = new HashMap<String, String>(2) {{
+        Map<String, String> header = new HashMap<>(2) {{
             put("Api-Key", botApis.getMoLi_ApiKey());
             put("Api-Secret", botApis.getMoLi_ApiSecret());
         }};

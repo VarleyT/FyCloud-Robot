@@ -1,4 +1,4 @@
-package online.fycloud.bot.entertainment.util;
+package online.fycloud.bot.entertainment.logic;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -42,11 +42,11 @@ public class GenShinPrayUtil {
         } else {
             url += GenShinPrayType.TEN.getValue();
         }
-        HashMap<String, String> paramMap = new HashMap<String, String>(2) {{
+        HashMap<String, String> paramMap = new HashMap<>(2) {{
             put("memberCode", accountInfo.getAccountCode());
             put("memberName", accountInfo.getAccountNickname());
         }};
-        HashMap<String, String> headerMap = new HashMap<String, String>(1) {{
+        HashMap<String, String> headerMap = new HashMap<>(1) {{
             put("authorzation", botApis.getGenShinPray_Authorization());
         }};
         final JSONObject json = BotHttpUtil.doGet(url, paramMap, headerMap);

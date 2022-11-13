@@ -25,9 +25,9 @@ import online.fycloud.bot.core.annotation.RobotLimit;
 import online.fycloud.bot.core.config.BotApis;
 import online.fycloud.bot.core.util.BotHttpUtil;
 import online.fycloud.bot.entertainment.entity.ImageInfo;
+import online.fycloud.bot.entertainment.logic.ChatUtil;
+import online.fycloud.bot.entertainment.logic.GenShinPrayUtil;
 import online.fycloud.bot.entertainment.service.ImageService;
-import online.fycloud.bot.entertainment.util.ChatUtil;
-import online.fycloud.bot.entertainment.util.GenShinPrayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +52,6 @@ public class GroupListener {
 
     @Autowired
     private ChatUtil chatUtil;
-
     /**
      * 聊天功能
      *

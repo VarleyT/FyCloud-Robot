@@ -1,7 +1,6 @@
 spring:
   profiles:
     active: dev
-
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://${DB.host}:${DB.port:3306}/${DB.database}?characterEncoding=utf-8
@@ -15,8 +14,8 @@ spring:
       max-lifetime: 30000
 
 simbot:
-#  core:
-#    bots: ${BOT.code}:${BOT.passwd}
+  core:
+    bots: ${BOT.code}:${BOT.passwd}
   component:
     mirai:
       protocol: ipad
@@ -26,6 +25,9 @@ bot:
   admin: ${BOT.admin}
 
 API:
+  NETEASE_API:
+    SEARCH: "http://192.168.152.3:3000/search?keywords=%s"
+    MP3: "http://192.168.152.3:3000/song/url?id=%s"
   #茉莉机器人API
   #来源：https://mly.app/
   #请求方式：POST
